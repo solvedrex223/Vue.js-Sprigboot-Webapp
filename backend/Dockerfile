@@ -11,13 +11,6 @@ WORKDIR "${APPLICATION_HOME}"
 COPY pom.xml ./pom.xml
 RUN mvn dependency:resolve-plugins dependency:go-offline
 #
-# Build & Package
-#
-FROM source AS builder
-WORKDIR "${APPLICATION_HOME}"
-COPY src src
-RUN mvn clean package spring-boot:repackage
-#
 # Install
 #
 FROM eclipse-temurin:17-jre-alpine AS production
