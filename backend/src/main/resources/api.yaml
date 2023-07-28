@@ -1,0 +1,59 @@
+openapi: 3.0.2
+
+
+info:
+  title: Swagger Petstore - OpenAPI 3.0
+  description: |-
+    Something about your project.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0-SNAPSHOT
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+
+paths:
+  /store/health:
+    get:
+      summary: Check the status of the backend.
+      operationId: sayHelloToWorld
+      responses:
+        200:
+          description: "Literally returns 'Hello world'. Innovative, I know."
+          content:
+            text/plain:
+              schema:
+                type: string
+  /store/item/{id}:
+    get:
+      summary: Get the information of an item.
+      operationId: getItemById
+      parameters:
+        - name: id
+          in: path 
+          schema:
+            type: integer
+          required: true
+      responses:
+        200:
+          description: "Literally returns 'Hello world'. Innovative, I know."
+          content:
+            text/plain:
+              schema:
+                type: string
+
+components:
+  schemas:
+    ItemInfo:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: the ID of the item.
+        name:
+          type: string
+          description: the name of the item.
+        price:
+          type: number
+          description: the price of the item.

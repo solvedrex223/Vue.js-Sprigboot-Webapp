@@ -115,9 +115,8 @@
                             <configOptions>
                                 <interfaceOnly>true</interfaceOnly>
                                 <useSpringBoot3>true</useSpringBoot3>
-                                <configHelp>true</configHelp>
                             </configOptions>
-                            <inputSpec>${basedir}/src/main/resources/swagger.yaml</inputSpec>
+                            <inputSpec>${basedir}/src/main/resources/api.yaml</inputSpec>
                             <generatorName>spring</generatorName>
                             <output>${basedir}/target/generated-sources/swagger</output>
                             <generateApis>true</generateApis>
@@ -126,6 +125,7 @@
                             <generateApiTests>true</generateApiTests>
                             <generateModels>true</generateModels>
                             <generateSupportingFiles>true</generateSupportingFiles>
+                            <generateApiDocumentation>true</generateApiDocumentation>
                             <apiPackage>com.example.openapi.generated.api</apiPackage>
                             <modelPackage>com.example.openapi.generated.model</modelPackage>
                         </configuration>

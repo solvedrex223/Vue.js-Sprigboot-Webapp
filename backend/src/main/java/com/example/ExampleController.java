@@ -2,14 +2,10 @@ package com.example;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
-import com.example.openapi.generated.api.ExampleApi;
-import com.mongodb.client.ClientSession;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoDatabase;
+import com.example.openapi.generated.api.*;
 
 @Controller
-public class ExampleController implements ExampleApi {
+public class ExampleController implements StoreApi{
 
     ClientSession session;
 
@@ -29,4 +25,8 @@ public class ExampleController implements ExampleApi {
         return ResponseEntity.ok("Hello World");
     }
 
+    @Override
+    public ResponseEntity<String> getItemById(Integer id) {
+        return StoreApi.super.getItemById(id);
+    }
 }
