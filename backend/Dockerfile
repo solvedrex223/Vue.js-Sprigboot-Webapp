@@ -13,7 +13,7 @@ RUN mvn dependency:resolve-plugins dependency:go-offline
 #
 # Install
 #
-FROM eclipse-temurin:17-jre-alpine AS production
+FROM eclipse-temurin:17-jre-alpine AS debug
 WORKDIR /opt/application/bin
 RUN addgroup -S "service-account-group" && \
     adduser --system --no-create-home "service-account" -G "service-account-group"

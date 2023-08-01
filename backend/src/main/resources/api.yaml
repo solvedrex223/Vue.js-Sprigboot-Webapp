@@ -39,21 +39,21 @@ paths:
         200:
           description: "Literally returns 'Hello world'. Innovative, I know."
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/ItemInfo'
 
 components:
   schemas:
     ItemInfo:
-      type: object
-      properties:
-        id:
-          type: integer
-          description: the ID of the item.
-        name:
-          type: string
-          description: the name of the item.
-        price:
-          type: number
-          description: the price of the item.
+        type: object
+        properties:
+          id:
+            type: integer
+            description: the ID of the item.
+          name:
+            type: string
+            description: the name of the item.
+          price:
+            type: number
+            description: the price of the item.
