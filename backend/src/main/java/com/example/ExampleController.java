@@ -2,14 +2,20 @@ package com.example;
 
 import org.springframework.stereotype.Controller;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
-import org.apache.tomcat.util.json.JSONParser;
+import java.util.Arrays;
 import org.bson.Document;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.example.openapi.generated.api.*;
 import com.example.openapi.generated.model.ItemInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.mongodb.MongoCommandException;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.ClientSession;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -17,38 +23,41 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
 @Controller
-public class ExampleController implements StoreApi{
+public class ExampleController implements StoreApi {
 
     private ClientSession session;
     private MongoDatabase db;
     private MongoCollection items, credentials;
 
-    ExampleController() throws Exception{
+    ExampleController() throws Exception {
         MongoClient client = MongoClients.create("mongodb://mongo");
         session = client.startSession();
         db = client.getDatabase("local");
         createDB();
     }
 
-    private void createDB() throws Exception{
+    private void createDB() throws Exception {
         try {
-            db.createCollection(session,"credentials");
-            db.createCollection(session,"items");
+            db.createCollection(session, "credentials");
+            db.createCollection(session, "items");
             items = db.getCollection("items");
             credentials = db.getCollection("credentials");
-            JSONParser js = new JSONParser(this.getClass().getResourceAsStream("/BOOT-INF/classes/items.json"));
-            ArrayList<Document> items_documents = new ArrayList<>();
-            for (Object object : js.parseArray()) {
-                items_documents.add(new Document((HashMap<String,?>) object));
+            BufferedInputStream stream = new BufferedInputStream(
+                    new FileInputStream("items.json"));
+            ObjectReader js = new ObjectMapper().readerFor(Document.class);
+            ArrayList<Document> ls = new ArrayList<>();
+            Document[] arr = js.readValues(js.createParser(stream), Document[].class).next();
+            for (Document element : arr) {
+                ls.add(element);
             }
-            items.insertMany(session,items_documents);
+            items.insertMany(session, ls);
+            stream.close();
         } catch (Exception e) {
             if (e.getClass().getName().equals(MongoCommandException.class.getName())) {
                 db.getCollection("credentials").drop();
                 db.getCollection("items").drop();
                 createDB();
-            }
-            else{
+            } else {
                 throw e;
             }
         }
@@ -61,7 +70,13 @@ public class ExampleController implements StoreApi{
 
     @Override
     public ResponseEntity<ItemInfo> getItemById(Integer id) {
-        // TODO Auto-generated method stub
-        return StoreApi.super.getItemById(id);
+        AggregateIterable<Document> aggr = items.aggregate(session, Arrays.asList(new Document("$match",
+                new Document("id", id))));
+        Document doc = aggr.first();
+        ItemInfo res = new ItemInfo();
+        res.setId(doc.getInteger("id"));
+        res.setName(doc.getString("name"));
+        res.setPrice(new BigDecimal(doc.getDouble("price")));
+        return new ResponseEntity<ItemInfo>(res,HttpStatus.OK);
     }
 }

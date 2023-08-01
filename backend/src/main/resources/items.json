@@ -2,11 +2,11 @@
     {
         "id": 1,
         "name": "Milk",
-        "price": 2.00
+        "price": 2.0
     },
     {
         "id": 2,
         "name": "Water",
-        "price": 1.50
+        "price": 1.5
     }
 ]
