@@ -37,23 +37,72 @@ paths:
           required: true
       responses:
         200:
-          description: "Literally returns 'Hello world'. Innovative, I know."
+          description: "Returns the item info."
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItemInfo'
+  /store/item/orderPrice:
+    post:
+      summary: Get the total price of the order.
+      operationId: calcOrder
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Order"
+        description: configuration data to be appended at the current level
+        required: true
+      responses:
+        200:
+          description: "Returns the order total price."
+          content:
+            application/json:
+              schema:
+                type: number
+  /store/login:
+    post:
+      summary: Authorize a login.
+      operationId: authLogin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginCredentials"
+        description: configuration data to be appended at the current level
+        required: true
+      responses:
+        200:
+          description: "Authorized login."
+        401:
+          description: "Error with credentials."
 
 components:
   schemas:
     ItemInfo:
-        type: object
-        properties:
-          id:
-            type: integer
-            description: the ID of the item.
-          name:
-            type: string
-            description: the name of the item.
-          price:
-            type: number
-            description: the price of the item.
+      type: object
+      properties:
+        id:
+          type: integer
+          description: the ID of the item.
+        name:
+          type: string
+          description: the name of the item.
+        price:
+          type: number
+          description: the price of the item.
+    Order:
+      type: object
+      properties:
+        prices:
+          type: array
+          description: The item prices.
+          items:
+              type: number
+    LoginCredentials:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
