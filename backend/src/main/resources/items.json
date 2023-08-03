@@ -8,5 +8,45 @@
         "id": 2,
         "name": "Water",
         "price": 1.5
+    },
+    {
+        "id": 3,
+        "name": "Apple",
+        "price": 0.6
+    },
+    {
+        "id": 4,
+        "name": "Meat",
+        "price": 1.0
+    },
+    {
+        "id": 5,
+        "name": "Fish",
+        "price": 1.2
+    },
+    {
+        "id": 6,
+        "name": "Banana",
+        "price": 0.5
+    },
+    {
+        "id": 7,
+        "name": "Pear",
+        "price": 0.2
+    },
+    {
+        "id": 8,
+        "name": "Mango",
+        "price": 0.8
+    },
+    {
+        "id": 9,
+        "name": "Chicken",
+        "price": 1.4
+    },
+    {
+        "id": 10,
+        "name": "Tomato",
+        "price":0.4
     }
 ]
