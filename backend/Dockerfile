@@ -26,5 +26,6 @@ RUN addgroup -S "service-account-group" && \
     adduser --system --no-create-home "service-account" -G "service-account-group"
 USER service-account
 COPY --from=builder /opt/application/src/main/resources/items.json ./items.json
+COPY --from=builder /opt/application/src/main/resources/credentials.json ./credentials.json
 COPY --from=builder /opt/application/target/*.jar ./application.jar
 CMD java -jar application.jar

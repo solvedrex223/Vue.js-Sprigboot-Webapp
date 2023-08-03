@@ -1,6 +1,7 @@
 package com.example;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
@@ -26,6 +27,7 @@ import com.mongodb.client.MongoDatabase;
 
 import jakarta.validation.Valid;
 
+@CrossOrigin
 @Controller
 public class ExampleController implements StoreApi {
 
@@ -34,7 +36,7 @@ public class ExampleController implements StoreApi {
     private MongoCollection items, credentials;
 
     ExampleController() throws Exception {
-        MongoClient client = MongoClients.create("mongodb://localhost");
+        MongoClient client = MongoClients.create("mongodb://mongo");
         session = client.startSession();
         db = client.getDatabase("local");
         createDB();
@@ -47,7 +49,7 @@ public class ExampleController implements StoreApi {
             items = db.getCollection("items");
             credentials = db.getCollection("credentials");
             BufferedInputStream stream = new BufferedInputStream(
-                    new FileInputStream("backend/src/main/resources/items.json"));
+                    new FileInputStream("items.json"));
             ObjectReader js = new ObjectMapper().readerFor(Document.class);
             ArrayList<Document> ls = new ArrayList<>();
             Document[] arr = js.readValues(js.createParser(stream), Document[].class).next();
@@ -57,7 +59,7 @@ public class ExampleController implements StoreApi {
             items.insertMany(session, ls);
             stream.close();
             stream = new BufferedInputStream(
-                    new FileInputStream("backend/src/main/resources/credentials.json"));
+                    new FileInputStream("credentials.json"));
             js = new ObjectMapper().readerFor(Document.class);
             ls = new ArrayList<>();
             arr = js.readValues(js.createParser(stream), Document[].class).next();
@@ -107,7 +109,13 @@ public class ExampleController implements StoreApi {
     @Override
     public ResponseEntity<Void> authLogin(@Valid LoginCredentials loginCredentials) {
         // TODO Auto-generated method stub
-        if(credentials.aggregate(session, Arrays.asList(new Document("$match",new Document("user", "1").append("password", "1")))) != null){
+        Document res = null;
+        for (Document element : (AggregateIterable<Document>)credentials.aggregate(session, Arrays.asList(new Document("$match",new Document("user",loginCredentials.getUsername()).append("password", loginCredentials.getPassword()))))) {
+            try {
+                res = element;
+            } catch (Exception e) {}
+        }
+        if(res != null){
             return new ResponseEntity<Void>(HttpStatus.OK);
         }
         else{

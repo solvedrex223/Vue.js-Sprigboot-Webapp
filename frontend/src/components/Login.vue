@@ -19,6 +19,7 @@
           placeholder="Email address"
           prepend-inner-icon="mdi-email-outline"
           variant="outlined"
+          @update:model-value="username = $event"
         ></v-text-field>
   
         <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
@@ -41,6 +42,7 @@
           prepend-inner-icon="mdi-lock-outline"
           variant="outlined"
           @click:append-inner="visible = !visible"
+          @update:model-value="password = $event"
         ></v-text-field>
   
         <v-card
@@ -59,6 +61,7 @@
           color="blue"
           size="large"
           variant="tonal"
+          @click="checkLogin([username,password])"
         >
           Log In
         </v-btn>
@@ -67,7 +70,20 @@
     </div>
   </template>
   <script lang="ts" setup>
-      class Login {
-        public visible: boolean = false;
+    import { ref } from "vue";
+    import {LoginCredentials} from '@/generated/models/LoginCredentials' 
+    import {DefaultService as api} from '@/generated/services/DefaultService'
+
+    const visible = ref(false);
+    var username:string = '';
+    var password:string = '';
+
+    function checkLogin(params:string[]) {
+          var login:LoginCredentials = {username:params[0],password:params[1]};
+          try {
+            api.authLogin(login);
+          } catch (error) {
+            console.log('Invalid Login');
+          }
     }
 </script>
