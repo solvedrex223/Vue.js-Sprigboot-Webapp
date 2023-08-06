@@ -1,20 +1,25 @@
 <template>
   <div>
-    <v-toolbar
+    <!--<v-toolbar
       dark
       prominent
       image="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
+    >-->
+    <v-toolbar
+      dark
+      prominent
+      image="https://static.vecteezy.com/system/resources/thumbnails/002/437/377/small/horizontal-yellow-and-orange-grunge-texture-cement-or-concrete-wall-banner-blank-background-free-photo.jpg"
     >
-      <v-app-bar-nav-icon style="color:whitesmoke"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon style="color:white"></v-app-bar-nav-icon>
 
-      <v-app-bar-title style="color:whitesmoke">
+      <v-app-bar-title style="color:white">
         <v-icon icon="mdi-calculator"/>
         Proyecto Final de Taller de Formación Profesional
       </v-app-bar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn icon style="color:whitesmoke">
+      <v-btn icon style="color:white">
         <v-icon>mdi-export</v-icon>
       </v-btn>
     </v-toolbar>
