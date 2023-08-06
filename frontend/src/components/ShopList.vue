@@ -1,4 +1,48 @@
-[
+<template>
+  <div>
+    <v-container>
+      <v-row>
+        <v-col cols="12" md="6" lg="4" v-for="item in items" :key="item.id">
+          <v-card>
+            <v-img :src="item.img" alt="Product Image" style="height:75px"></v-img>
+            <v-card-title>{{ item.name }}</v-card-title>
+            <v-card-subtitle>${{ item.price.toFixed(2) }}</v-card-subtitle>
+            <v-btn @click="addToCart(item.id)" color="orange">Add to List</v-btn>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
+    <v-container>
+      <div name="Search">
+        <v-text-field v-model="searchId" label="Enter an ID" style="margin: 50px;"></v-text-field>
+        <v-btn @click="addToCart(searchId)" color="orange" style="margin-left: 50px">Add by ID to List</v-btn>
+      </div>
+
+      <div name="Lista de Compras">
+        <v-card class="mx-auto" max-width="300">
+          <v-navigation-drawer app>
+            <v-list>
+              <v-list-item v-for="cartItem in cartItems" :key="cartItem.id">
+                <v-list-item-title>{{ cartItem.name }}</v-list-item-title>
+                <v-list-item-subtitle>${{ cartItem.price.toFixed(2) }}</v-list-item-subtitle>
+              </v-list-item>
+            </v-list>
+          </v-navigation-drawer>
+        </v-card>
+      </div>
+    </v-container>
+  </div>
+</template>
+
+
+
+
+
+<script lang="ts">
+export default {
+  data: () => ({
+    items: [
     {
         "id": 1,
         "name": "Milk",
@@ -71,4 +115,17 @@
         "price": 0.8,
         "img": "https://static.vecteezy.com/system/resources/previews/013/643/137/original/bread-with-transparent-background-free-png.png"
       }
-]
+],
+    searchId: '',
+    cartItems: [],
+  }),
+  methods: {
+    addToCart(itemId) {
+      const selectedItem = this.items.find(item => item.id === parseInt(itemId));
+      if (selectedItem) {
+        this.cartItems.push(selectedItem);
+      }
+    },
+  },
+}
+</script>
