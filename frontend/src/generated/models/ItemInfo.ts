@@ -17,4 +17,3 @@ export type ItemInfo = {
      */
     price?: number;
 };
-

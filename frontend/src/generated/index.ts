@@ -7,6 +7,7 @@ export { CancelablePromise, CancelError } from './core/CancelablePromise';
 export { OpenAPI } from './core/OpenAPI';
 export type { OpenAPIConfig } from './core/OpenAPI';
 
+export type { AllItems } from './models/AllItems';
 export type { ItemInfo } from './models/ItemInfo';
 export type { LoginCredentials } from './models/LoginCredentials';
 export type { Order } from './models/Order';

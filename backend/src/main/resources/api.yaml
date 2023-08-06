@@ -42,6 +42,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ItemInfo'
+  /store/item:
+    get:
+      summary: "Retuns all items"
+      operationId: getAllItems
+      responses:
+        200:
+          description: All items in database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllItems'
+
   /store/item/orderPrice:
     post:
       summary: Get the total price of the order.
@@ -106,3 +118,16 @@ components:
           type: string
         password:
           type: string
+    AllItems:
+      type: array
+      items:
+          type: object
+          properties:
+            name:
+              type: string
+            price:
+              type: number
+            img:
+              type: string
+            id:
+              type: integer

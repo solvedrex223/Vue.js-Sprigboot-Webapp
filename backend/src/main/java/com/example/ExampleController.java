@@ -8,10 +8,13 @@ import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 import org.bson.Document;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.example.openapi.generated.api.*;
+import com.example.openapi.generated.model.AllItemsInner;
 import com.example.openapi.generated.model.ItemInfo;
 import com.example.openapi.generated.model.LoginCredentials;
 import com.example.openapi.generated.model.Order;
@@ -121,5 +124,21 @@ public class ExampleController implements StoreApi {
         else{
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
+    }
+    @Override
+    public ResponseEntity<List<AllItemsInner>> getAllItems() {
+        // TODO Auto-generated method stub
+       Document res = null;
+       ArrayList<AllItemsInner> list = new ArrayList<>();
+       for (Document element : (AggregateIterable<Document>) items.aggregate(session, Arrays.asList(new Document("$match", new Document()))
+   )) {
+            AllItemsInner item = new AllItemsInner();
+            item.setName(element.getString("name"));
+            item.setImg(element.getString("img"));
+            item.setPrice(new BigDecimal(element.getDouble("price")));
+            item.setId(element.getInteger("id"));
+            list.add(item);
+       }
+       return new ResponseEntity<List<AllItemsInner>>(list, HttpStatus.OK);
     }
 }

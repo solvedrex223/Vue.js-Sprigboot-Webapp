@@ -3,7 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type LoginCredentials = {
-    username?: string;
-    password?: string;
-};
+export type AllItems = Array<{
+name?: string;
+price?: number;
+img?: string;
+id?: number;
+}>;

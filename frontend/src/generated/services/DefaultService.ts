@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AllItems } from '../models/AllItems';
 import type { ItemInfo } from '../models/ItemInfo';
 import type { LoginCredentials } from '../models/LoginCredentials';
 import type { Order } from '../models/Order';
@@ -26,13 +27,13 @@ export class DefaultService {
 
     /**
      * Get the information of an item.
-     * @param id
+     * @param id 
      * @returns ItemInfo Returns the item info.
      * @throws ApiError
      */
     public static getItemById(
-        id: number,
-    ): CancelablePromise<ItemInfo> {
+id: number,
+): CancelablePromise<ItemInfo> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/store/item/{id}',
@@ -43,14 +44,26 @@ export class DefaultService {
     }
 
     /**
+     * Retuns all items
+     * @returns AllItems All items in database
+     * @throws ApiError
+     */
+    public static getAllItems(): CancelablePromise<AllItems> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/store/item',
+        });
+    }
+
+    /**
      * Get the total price of the order.
      * @param requestBody configuration data to be appended at the current level
      * @returns number Returns the order total price.
      * @throws ApiError
      */
     public static calcOrder(
-        requestBody: Order,
-    ): CancelablePromise<number> {
+requestBody: Order,
+): CancelablePromise<number> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/store/item/orderPrice',
@@ -66,8 +79,8 @@ export class DefaultService {
      * @throws ApiError
      */
     public static authLogin(
-        requestBody: LoginCredentials,
-    ): CancelablePromise<any> {
+requestBody: LoginCredentials,
+): CancelablePromise<any> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/store/login',

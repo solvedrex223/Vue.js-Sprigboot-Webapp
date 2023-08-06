@@ -9,4 +9,3 @@ export type Order = {
      */
     prices?: Array<number>;
 };
-

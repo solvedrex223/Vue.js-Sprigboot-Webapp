@@ -26,14 +26,6 @@
   
         <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
           Password
-  
-          <a
-            class="text-caption text-decoration-none text-blue"
-            href="#"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Forgot login password?</a>
         </div>
   
         <v-text-field
@@ -47,16 +39,6 @@
           @click:append-inner="visible = !visible"
           @update:model-value="password = $event"
         ></v-text-field>
-  
-        <v-card
-          class="mb-12"
-          color="surface-variant"
-          variant="tonal"
-        >
-          <v-card-text class="text-medium-emphasis text-caption">
-            Warning: After 3 consecutive failed login attempts, you account will be temporarily locked for three hours. If you must login now, you can also click "Forgot login password?" below to reset the login password.
-          </v-card-text>
-        </v-card>
   
         <v-btn
           block
@@ -74,8 +56,8 @@
   </template>
   <script lang="ts" setup>
     import { ref } from "vue";
-    import {LoginCredentials} from '@/generated/models/LoginCredentials' 
-    import {DefaultService as api} from '@/generated/services/DefaultService'
+    import {LoginCredentials, DefaultService as api} from '@/generated/index' 
+    import router from "@/router";
 
     const visible = ref(false);
     var username:string = '';
@@ -85,6 +67,7 @@
           var login:LoginCredentials = {username:params[0],password:params[1]};
           try {
             api.authLogin(login);
+            router.push('/terminal');
           } catch (error) {
             console.log('Invalid Login');
           }
