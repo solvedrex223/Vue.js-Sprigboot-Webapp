@@ -7,8 +7,8 @@ Before(function(){
 });
 
 When(`I login as user {string} and password {string}`, (user: string, password: string) => {
-    cy.get('#user').type('1');
-    cy.get('#password').type('1');
+    cy.get('#user').type(user);
+    cy.get('#password').type(password);
     cy.get('#login').click();
 });
 

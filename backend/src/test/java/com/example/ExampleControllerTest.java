@@ -31,4 +31,12 @@ class ExampleControllerTest {
 
     }
 
+    @DisplayName("Login with user 1 and password 1")
+    @Test
+    void loginWithUser1AndPassword1(@Autowired MockMvc mvc) throws Exception{
+        var getRequest = MockMvcRequestBuilders.get("/store/login").contentType("application/json").content("{use:'1',password:'1'}");
+        var mockResponse = mvc.perform(getRequest)
+                .andExpect(status().isOk());
+    }
+
 }
