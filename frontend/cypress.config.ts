@@ -20,5 +20,7 @@ export default defineConfig({
     },
     baseUrl: 'http://localhost:8002',
     specPattern: '**/*.feature',
+    viewportHeight: 1080,
+    viewportWidth: 1920
   },
 });

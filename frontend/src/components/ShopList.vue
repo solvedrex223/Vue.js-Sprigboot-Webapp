@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="alert">
+  <v-snackbar v-model="alert" id="alert">
     Order completed. Total: ${{ orderTotal }}
     <template v-slot:actions>
       <v-btn color="red" variant="text" @click="alert = false">
@@ -15,7 +15,7 @@
             <v-img :src="item.img" alt="Product Image" style="height:75px"></v-img>
             <v-card-title>{{ item.name }}</v-card-title>
             <v-card-subtitle>${{ item.price.toFixed(2) }}</v-card-subtitle>
-            <v-btn @click="addToCart(item.id)" color="orange">Add to List</v-btn>
+            <v-btn @click="addToCart(item.id)" color="orange" :id="'item-' + item.id">Add to List</v-btn>
           </v-card>
         </v-col>
       </v-row>
@@ -36,7 +36,7 @@
                 <v-list-item-subtitle>${{ cartItem.price.toFixed(2) }}</v-list-item-subtitle>
               </v-list-item>
             </v-list>
-            <v-btn @click="buyCart(cartItems)">
+            <v-btn @click="buyCart(cartItems)" id="btn-buy">
               Buy
             </v-btn>
           </v-navigation-drawer>

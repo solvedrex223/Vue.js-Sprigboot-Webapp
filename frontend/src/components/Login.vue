@@ -47,6 +47,7 @@
           size="large"
           variant="tonal"
           @click="checkLogin([username,password])"
+          id="login"
         >
           Log In
         </v-btn>
