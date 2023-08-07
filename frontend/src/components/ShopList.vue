@@ -1,4 +1,12 @@
 <template>
+  <v-snackbar v-model="alert">
+    Order completed. Total: ${{ orderTotal }}
+    <template v-slot:actions>
+      <v-btn color="red" variant="text" @click="alert = false">
+        Close
+      </v-btn>
+    </template>
+  </v-snackbar>
   <div>
     <v-container>
       <v-row>
@@ -22,12 +30,15 @@
       <div name="Lista de Compras">
         <v-card class="mx-auto" max-width="200">
           <v-navigation-drawer app>
-            <v-list>
-              <v-list-item v-for="cartItem in getCartItems()" :key="cartItem.id">
+            <v-list height="95%">
+              <v-list-item v-for="cartItem in cartItems" :key="cartItem.id">
                 <v-list-item-title>{{ cartItem.name }}</v-list-item-title>
                 <v-list-item-subtitle>${{ cartItem.price.toFixed(2) }}</v-list-item-subtitle>
               </v-list-item>
             </v-list>
+            <v-btn @click="buyCart(cartItems)">
+              Buy
+            </v-btn>
           </v-navigation-drawer>
         </v-card>
       </div>
@@ -36,25 +47,37 @@
 </template>
 
 <script lang="ts" async setup>
-  import {DefaultService as api} from '@/generated/index'
+import { Order, DefaultService as api } from '@/generated/index'
+import { ref } from 'vue';
 
-  var searchId: '';
-  var cartItems: {name?:string|undefined,id?:number|undefined,price?:number|undefined,img?:string|undefined}[] = [];
-  const items = await getItems();
+var searchId: '';
+const cart: { name?: string | undefined, id?: number | undefined, price?: number | undefined, img?: string | undefined }[] = [];
+const cartItems = ref(cart);
+const items = await getItems();
+var orderTotal: number = 0;
+const alert = ref(false);
 
-  function addToCart(itemId:number) {
-    const selectedItem = items.find(item => item.id === itemId);
-    if (selectedItem) {
-      cartItems.push(selectedItem);
-    }
+function addToCart(itemId: number) {
+  const selectedItem = items.find(item => item.id === itemId);
+  if (selectedItem) {
+    cart.push(selectedItem);
+    cartItems.value = cart;
   }
+}
 
-  function getCartItems() {
-    return cartItems;
-  }
+async function getItems() {
+  const res = await api.getAllItems();
+  return Array.from(res.values());
+}
 
-  async function getItems(){
-    const res = await api.getAllItems();
-    return Array.from(res.values());
-  }
+async function buyCart(cartItems: { name?: string | undefined, id?: number | undefined, price?: number | undefined, img?: string | undefined }[]) {
+  var items: number[] = [];
+  cartItems.forEach(item => {
+    items.push(item.price!);
+  });
+  const order: Order = { prices: items };
+  const res = await api.calcOrder(order);
+  orderTotal = res;
+  alert.value = true;
+}
 </script>
