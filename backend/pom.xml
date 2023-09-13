@@ -6,19 +6,18 @@
 
     <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent -->
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.0</version>
-        <relativePath/> <!-- lookup parent sourceFormat repository -->
+        <groupId>com.example</groupId>
+        <artifactId>Springboot_Vue_App</artifactId>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath> <!-- lookup parent sourceFormat repository -->
     </parent>
 
     <groupId>com.example</groupId>
     <artifactId>backend</artifactId>
     <version>${revision}</version>
+    <packaging>jar</packaging>
 
     <properties>
-        <revision>1.0-SNAPSHOT</revision>
-        <java.version>17</java.version>
         <!-- Project -->
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
