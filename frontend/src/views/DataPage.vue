@@ -1,8 +1,8 @@
 <template>
     <Suspense>
-        <ShopList />
+        <Data />
     </Suspense>
 </template>
 <script setup lang="ts">
-import ShopList from '@/components/ShopList.vue';
+import Data from '@/components/Data.vue';
 </script>

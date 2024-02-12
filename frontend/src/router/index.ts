@@ -17,16 +17,16 @@ const routes = [
     ],
   },
   {
-    path: '/terminal',
-    component: () => import('@/layouts/default/TerminalView.vue'),
+    path: '/data',
+    component: () => import('@/layouts/default/DataView.vue'),
     children: [
       {
-        path: '/terminal',
-        name: 'Terminal',
+        path: '/data',
+        name: 'data',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Terminal.vue'),
+        component: () => import(/* webpackChunkName: "home" */ '@/views/DataPage.vue'),
       },
     ],
   },

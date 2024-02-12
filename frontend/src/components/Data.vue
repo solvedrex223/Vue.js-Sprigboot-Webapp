@@ -13,7 +13,9 @@
         max-width="448"
         rounded="lg"
       >
-        <div class="text-subtitle-1 text-medium-emphasis">Account</div>
+        <div class="text-subtitle-1 text-medium-emphasis">Data</div>
+
+        <div class="text-subtitle-1 text-medium-emphasis">Revolutions</div>
   
         <v-text-field
           id="user"
@@ -25,7 +27,7 @@
         ></v-text-field>
   
         <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
-          Password
+          Throttle
         </div>
   
         <v-text-field
@@ -40,40 +42,23 @@
           @update:model-value="password = $event"
         ></v-text-field>
   
-        <v-btn
-          block
-          class="mb-8"
-          color="orange"
-          size="large"
-          variant="tonal"
-          @click="checkLogin([username,password])"
-          id="login"
-        >
-          Log In
-        </v-btn>
-  
       </v-card>
     </div>
   </template>
   <script lang="ts" setup>
     import { ref } from "vue";
-    import {LoginCredentials, DefaultService as api} from '@/generated/index' 
     import router from "@/router";
-    import { file } from "@babel/types";
-    import { readFileSync } from "fs";
-import { forEach } from "cypress/types/lodash";
+    import mqtt from "mqtt";
 
     const visible = ref(false);
+    const mqserver = mqtt.connect({ port: 1883, host: '127.0.0.1', keepalive: 10000});
+
     var username:string = '';
     var password:string = '';
     let credentials = [{user:'1',password:'1'}];
 
-    function checkLogin(params:string[]) {
-          if (credentials[0].user === params[0] && credentials[0].password === params[1]) {
-            router.push('/data');
-          }
-          else{
-            console.log('Invalid Login');
-          }
-    }
+    mqserver.on('connect',() => {
+      console.log("Connected to mqtt server");
+    });
+
 </script>
