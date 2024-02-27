@@ -16,42 +16,24 @@
         <div class="text-subtitle-1 text-medium-emphasis">Data</div>
 
         <div class="text-subtitle-1 text-medium-emphasis">Revolutions</div>
-  
-        <v-text-field
-          id="user"
-          density="compact"
-          placeholder="Email address"
-          prepend-inner-icon="mdi-email-outline"
-          variant="outlined"
-          @update:model-value="username = $event"
-        ></v-text-field>
-  
-        <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
-          Throttle
-        </div>
-  
-        <v-text-field
-          id="password"
-          :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-          :type="visible ? 'text' : 'password'"
-          density="compact"
-          placeholder="Enter your password"
-          prepend-inner-icon="mdi-lock-outline"
-          variant="outlined"
-          @click:append-inner="visible = !visible"
-          @update:model-value="password = $event"
-        ></v-text-field>
+
+        <BarChart
+          :dataset=data
+          :lables=labels
+        />
   
       </v-card>
     </div>
   </template>
   <script lang="ts" setup>
-    import { ref } from "vue";
-    import router from "@/router";
     import mqtt from "mqtt";
+import { ref } from "vue";
+import BarChart from './charts/BarChart.vue';
 
     const visible = ref(false);
     const mqserver = mqtt.connect({ port: 1883, host: '127.0.0.1', keepalive: 10000});
+    const labels = ['test1','test2'];
+    const data = [5,10];
 
     var username:string = '';
     var password:string = '';

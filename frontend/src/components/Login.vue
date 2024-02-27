@@ -56,12 +56,8 @@
     </div>
   </template>
   <script lang="ts" setup>
-    import { ref } from "vue";
-    import {LoginCredentials, DefaultService as api} from '@/generated/index' 
     import router from "@/router";
-    import { file } from "@babel/types";
-    import { readFileSync } from "fs";
-import { forEach } from "cypress/types/lodash";
+import { ref } from "vue";
 
     const visible = ref(false);
     var username:string = '';
